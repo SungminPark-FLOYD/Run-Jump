@@ -46,6 +46,14 @@ public class GameController : MonoBehaviour
         Application.Quit();
         #endif
     }
+
+    public void GamePause()
+    {
+        uiController.PauseMenu();
+
+        IsGamePlay=false;
+
+    }
     private void Update()
     {
         if (IsGamePlay == false) return;

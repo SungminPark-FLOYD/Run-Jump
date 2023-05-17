@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 {
     [SerializeField]
     private GameController gameController;
+
     [Header("Main UI")]
     [SerializeField]
     private GameObject mainPanel;
@@ -18,6 +19,8 @@ public class UIController : MonoBehaviour
     private GameObject gamePanel;
     [SerializeField]
     private TextMeshProUGUI textScore;
+    [SerializeField]
+    private TextMeshProUGUI roundNumber;
     
     [Header("Result UI")]
     [SerializeField]
@@ -28,6 +31,12 @@ public class UIController : MonoBehaviour
     private TextMeshProUGUI textResultGrade;
     [SerializeField]
     private TextMeshProUGUI textResultHighScore;
+
+    [Header("Pause UI")]
+    [SerializeField]
+    private GameObject pausePanel;
+
+    public static bool GameIsPause = false;
 
     [Header("Result UI Animation")]
     [SerializeField]
@@ -73,9 +82,27 @@ public class UIController : MonoBehaviour
         // 플레이어 위치, 점수, 체력 등 초기화할 게 많기 때문에 그냥 현재씬을 다시 로드..
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    public void PauseMenu()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            pausePanel.SetActive(true);
+            Time.timeScale = 0f;
+            GameIsPause = true;
+        }
+    }
+    public void Resume()
+    {
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPause = false;
+    }
     private void Update()
     {
         textScore.text = gameController.currentScore.ToString("F0");
+
+
+        PauseMenu();
     }
     
     private void CalculateGradeAndTalk(int score)
